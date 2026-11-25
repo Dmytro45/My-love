@@ -1,3 +1,50 @@
+
+// =================================
+// ПОЧАТКОВА АНІМАЦІЯ
+// =================================
+
+const startButton = document.getElementById('startButton');
+const heartRain = document.getElementById('heartRain');
+
+startButton.addEventListener('click', () => {
+  // Запускаємо перехід
+  document.body.classList.add('entered');
+
+  // Запускаємо дощ із сердечок
+  createTransitionHearts();
+
+  // Після переходу прибираємо заставку
+  setTimeout(() => {
+    document.getElementById('introScreen').style.display = 'none';
+  }, 1300);
+});
+
+function createTransitionHearts() {
+  const symbols = ['♡', '♥', '💗', '💕', '♡', '💖'];
+
+  for (let i = 0; i < 65; i++) {
+    const heart = document.createElement('span');
+
+    heart.className = 'flying-heart';
+    heart.textContent =
+      symbols[Math.floor(Math.random() * symbols.length)];
+
+    heart.style.left = Math.random() * 100 + '%';
+    heart.style.animationDuration = (2 + Math.random() * 3) + 's';
+    heart.style.animationDelay = Math.random() * 1.5 + 's';
+    heart.style.fontSize = (16 + Math.random() * 23) + 'px';
+
+    heartRain.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 6500);
+  }
+}
+
+
+// =================================
+// ТВОЇ 10 ЗІЗНАНЬ
+// =================================
+
 const confessions = [
   'Киця моя, ці два місяці з тобою стали для мене маленькою казкою. ♡',
   'Ти моє сонечко навіть у найпохмуріший день.',
@@ -25,26 +72,46 @@ button.addEventListener('click', () => {
   const paragraph = document.createElement('p');
   paragraph.className = 'message';
   paragraph.textContent = confessions[current];
+
   messages.replaceChildren(paragraph);
 
   current += 1;
+
   counter.textContent = `${current} / ${confessions.length}`;
-  progress.style.width = `${(current / confessions.length) * 100}%`;
+
+  progress.style.width =
+    `${(current / confessions.length) * 100}%`;
 
   if (current < confessions.length) {
     button.innerHTML = `Наступна кнопочка <span>♡</span>`;
-    tinyNote.textContent = current === 9 ? 'І останнє, найніжніше зізнання...' : 'Ще одне маленьке зізнання для тебе 💗';
+
+    tinyNote.textContent =
+      current === 9
+        ? 'І останнє, найніжніше зізнання...'
+        : 'Ще одне маленьке зізнання для тебе 💗';
+
   } else {
     button.textContent = 'Усі зізнання відкрито ♡';
     button.disabled = true;
-    tinyNote.textContent = 'Міцно-міцно обіймаю тебе, моє сонечко!';
+
+    tinyNote.textContent =
+      'Міцно-міцно обіймаю тебе, моє сонечко!';
+
     createHearts();
   }
 });
 
 function createHearts() {
   const heart = document.createElement('div');
+
   heart.textContent = '♡  ♥  ♡';
-  heart.style.cssText = 'margin-top:14px;color:#df8ca6;font-size:1.5rem;letter-spacing:.5rem;animation:appear .6s ease both;';
+  heart.style.cssText = `
+    margin-top: 14px;
+    color: #df8ca6;
+    font-size: 1.5rem;
+    letter-spacing: .5rem;
+    animation: appear .6s ease both;
+  `;
+
   messages.appendChild(heart);
 }
